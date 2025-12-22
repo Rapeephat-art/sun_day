@@ -4,35 +4,39 @@ const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
 
+const app = express(); // ✅ สำคัญมาก (คุณลืมบรรทัดนี้)
+
+// ================= CORS =================
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://<vercel-frontend>.vercel.app"
+    "https://<vercel-frontend>.vercel.app" // เปลี่ยนเป็นของจริง
   ],
   credentials: true
 }));
 
-
+// ================= Middlewares =================
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static("uploads"));
 
-// Ensure upload dir exists
+// ================= Upload dir =================
 const UPLOAD_DIR = process.env.UPLOAD_DIR || path.join(__dirname, 'uploads');
-if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+if (!fs.existsSync(UPLOAD_DIR)) {
+  fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+}
 
-// Helper
+// ================= Helper =================
 function safeRequireRoute(relPath) {
   try {
-    const route = require(relPath);
-    return route;
+    return require(relPath);
   } catch (err) {
     console.error(`[routes] failed loading ${relPath}:`, err.message);
     return null;
   }
 }
 
-// Load routes
+// ================= Routes =================
 const authRoutes           = safeRequireRoute('./routes/auth.routes');
 const childrenRoutes       = safeRequireRoute('./routes/children.routes');
 const announcementsRoutes  = safeRequireRoute('./routes/announcements.routes');
@@ -49,15 +53,15 @@ const lunchRoutes          = safeRequireRoute('./routes/lunch.routes');
 const lunchEatingRoutes    = safeRequireRoute('./routes/lunchEating.routes');
 const adminUsersRoutes     = safeRequireRoute('./routes/admin.users.routes');
 const childrenClassRoutes  = safeRequireRoute('./routes/children.class.routes');
-const menusRoutes = safeRequireRoute('./routes/menus.routes');
-const dailyMenuRoutes = safeRequireRoute('./routes/daily.menu.routes');
-const centersRoutes = require("./routes/centers.routes");
+const menusRoutes          = safeRequireRoute('./routes/menus.routes');
+const dailyMenuRoutes      = safeRequireRoute('./routes/daily.menu.routes');
+const centersRoutes        = safeRequireRoute('./routes/centers.routes');
 
-// Register routes — no duplicates, no override
+// ================= Register =================
 if (authRoutes)           app.use('/api/auth', authRoutes);
-if (centersRoutes)       app.use('/api/centers', centersRoutes);
+if (centersRoutes)        app.use('/api/centers', centersRoutes);
 if (childrenRoutes)       app.use('/api/children', childrenRoutes);
-if (childrenClassRoutes)  app.use('/api/children/class', childrenClassRoutes); // <-- แยก path
+if (childrenClassRoutes)  app.use('/api/children/class', childrenClassRoutes);
 if (announcementsRoutes)  app.use('/api/announcements', announcementsRoutes);
 if (filesRoutes)          app.use('/api/files', filesRoutes);
 if (enrollmentsRoutes)    app.use('/api/enrollments', enrollmentsRoutes);
@@ -71,11 +75,16 @@ if (milkRoutes)           app.use('/api/milk', milkRoutes);
 if (lunchRoutes)          app.use('/api/lunch', lunchRoutes);
 if (lunchEatingRoutes)    app.use('/api/lunch-eating', lunchEatingRoutes);
 if (adminUsersRoutes)     app.use('/api/admin/users', adminUsersRoutes);
-if (menusRoutes) app.use('/api/menus', menusRoutes);
-if (dailyMenuRoutes) app.use('/api/daily-menu', dailyMenuRoutes);
+if (menusRoutes)          app.use('/api/menus', menusRoutes);
+if (dailyMenuRoutes)      app.use('/api/daily-menu', dailyMenuRoutes);
 
-// Health check
-app.get('/ping', (req, res) => res.json({ ok: true }));
+// ================= Health check =================
+app.get('/ping', (req, res) => {
+  res.json({ ok: true });
+});
 
+// ================= Start =================
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Backend running on port ${PORT}`);
+});
