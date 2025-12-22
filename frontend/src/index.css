@@ -1,0 +1,130 @@
+/* layout.css — ใส่หลัง bootstrap และไฟล์อื่นๆ */
+:root{
+  --page-bg: linear-gradient(135deg,#dfffe8 0%, #e7ffd7 50%, #f8ffea 100%);
+  --card-bg: #fff;
+  --muted: #6b7280;
+  --brand: #5675a3;
+  --max-width: 1200px;
+}
+
+/* base tweaks */
+body {
+  background: url('../public/images/bg-kindergarten.jpg.png') no-repeat center center fixed;
+  background-size: cover;
+  color:#0f1724;
+  font-family: "Noto Sans Thai", "Inter", Arial, sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+
+.site-wrapper { min-height: 100vh; }
+
+/* เน้นให้ container ตรงกับขนาดที่ต้องการ */
+.content {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 20px;
+  width: 100%;
+}
+
+/* ===== Layout: sidebar (left) + main (right) ===== */
+/* ใช้ class ที่คุณมี: .content.content-layout */
+.content.content-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr; /* ปรับความกว้าง sidebar ตรงนี้ */
+  gap: 24px;
+  align-items: start;
+  align-content: start;
+}
+
+/* sidebar */
+.layout-sidebar {
+  position: relative;
+  top: 0;
+  align-self: start;
+  padding: 18px;
+  border-radius: 12px;
+  background: var(--card-bg);
+  border: 1px solid rgba(16,24,40,0.04);
+  box-shadow: 0 8px 26px rgba(14,30,64,0.04);
+}
+
+/* เมนู sidebar */
+.layout-sidebar .sidebar-brand h5 { margin: 0 0 12px 0; color: var(--brand); font-weight:700; }
+.layout-sidebar .sidebar-nav ul { list-style: none; padding: 0; margin: 0; }
+.layout-sidebar .sidebar-nav li { margin: 10px 0; }
+.layout-sidebar .sidebar-nav a { color: rgba(15,23,42,0.85); text-decoration: none; font-weight:500; }
+
+/* widget ช่องทางติดต่อ เล็กๆ */
+.layout-sidebar .sidebar-widget h6 { margin: 12px 0 6px 0; font-weight:700; }
+.layout-sidebar .small { color: var(--muted); }
+
+/* main content */
+.layout-main { min-width: 0; } /* important for overflow */
+
+/* card-panel (รีไซเคิล class ที่ใช้ใน JSX) */
+.card-panel {
+  background: var(--card-bg);
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(16,24,40,0.03);
+  box-shadow: 0 10px 32px rgba(14,30,64,0.04);
+}
+
+/* Hero: ทำให้เป็นกล่องกึ่งกว้าง */
+.hero.card-panel {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  padding: 26px;
+}
+.hero-left { flex: 1 1 auto; min-width: 0; } /* important */
+.hero-right { width: 200px; display:flex; justify-content:center; align-items:center; }
+
+/* hero typography */
+.hero-title { font-size: 2.1rem; color: var(--brand); font-weight: 800; margin: 0 0 6px 0; line-height:1.05; }
+.hero-sub { color: var(--muted); margin-bottom: 12px; }
+
+/* hero buttons */
+.hero-actions .btn { margin-right: 8px; }
+
+/* announcement area */
+.section-title { margin-top: 18px; font-weight:700; color:#12324b; }
+.announcement {
+  display:flex;
+  justify-content:space-between;
+  gap: 12px;
+  padding: 18px;
+  align-items:flex-start;
+}
+
+/* feature grid under announcement (3 columns) */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 18px;
+}
+.feature { padding: 16px; border-radius: 10px; }
+
+/* footer: ให้เต็มความกว้าง content */
+.site-footer {
+  margin-top: 28px;
+  padding: 16px;
+}
+
+/* small helpers */
+.text-muted { color: var(--muted) !important; }
+.center { text-align:center; }
+
+/* ===== Responsive ===== */
+@media (max-width: 991px) {
+  .content.content-layout { grid-template-columns: 1fr; }
+  .layout-sidebar { order: 2; }
+  .layout-main { order: 1; }
+  .hero.card-panel { flex-direction: column; align-items: flex-start; }
+  .feature-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 575px) {
+  .feature-grid { grid-template-columns: 1fr; }
+  .hero-title { font-size: 1.5rem; }
+}

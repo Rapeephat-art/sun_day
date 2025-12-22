@@ -1,0 +1,94 @@
+/* ---------- cards row (3 cards) ---------- */
+.cards-row {
+  display: flex;
+  gap: 28px;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+  margin: 18px 0 28px;
+}
+
+/* common card */
+.color-card {
+  width: 300px;
+  min-height: 220px;
+  border-radius: 12px;
+  padding: 26px 18px;
+  text-align: center;
+  color: #222;
+  text-decoration: none;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: transform .16s ease, box-shadow .16s ease;
+}
+
+.color-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 28px 60px rgba(0,0,0,0.12);
+}
+
+.card-icon {
+  font-size: 52px;
+  margin-bottom: 10px;
+}
+
+.card-title { margin: 6px 0 8px; font-size: 20px; font-weight: 700; }
+.card-desc { margin: 0; color: rgba(0,0,0,0.65); line-height: 1.5; font-size: 14px; }
+
+.btn-card {
+  margin-top: 12px;
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.06);
+  text-decoration: none;
+  color: #333;
+}
+
+/* colors */
+.card-pink { background: #f0a6c1; color: #2b2b2b; }
+.card-yellow { background: #f8e3a3; color: #2b2b2b; }
+.card-green { background: #a8eec0; color: #0b3b2b; }
+
+/* ---------- existing news + info card styles (kept centered) ---------- */
+.news-wrapper { width: 100%; display: flex; justify-content: center; margin-bottom: 24px; }
+.news-card { width: 80%; max-width: 900px; background: #ffffff; border-radius: 14px; box-shadow: 0 10px 26px rgba(0,0,0,0.1); padding: 20px 24px 22px; }
+.news-heading { text-align: center; margin: 0 0 14px; font-size: 20px; font-weight: 700; color: #0f3d13; }
+.news-title { margin: 0 0 8px; font-size: 18px; font-weight: 700; }
+.news-text { margin: 0 0 10px; color: #333; line-height: 1.5; }
+.news-meta { margin: 0 0 14px; color: #777; font-size: 13px; }
+.btn-readmore { display: inline-block; padding: 8px 14px; border-radius: 8px; border: 1px solid #ddd; background: #fff; text-decoration: none; color: #333; }
+
+/* info card bottom */
+.info-card { background: #ffffff; padding: 18px 20px; border-radius: 14px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); text-align: center; color: #444; margin-top: 18px; }
+
+/* responsive */
+@media (max-width: 960px) {
+  .color-card { width: calc(50% - 18px); }
+  .news-card { width: 94%; }
+}
+@media (max-width: 520px) {
+  .color-card { width: 100%; }
+  .card-icon { font-size: 46px; }
+}
+.main-title-box {
+  background: #e8f3ff;       /* ฟ้าอ่อน เปลี่ยนสีตรงนี้ได้ */
+  padding: 28px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  text-align: center;
+  margin: 0 auto 32px auto; /* กลางหน้า */
+  width: 85%;
+  max-width: 950px;
+}
+
+.main-title-box h1 {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 800;
+  color: #0b5fcc;  /* น้ำเงินเข้ม */
+  letter-spacing: 0.5px;
+}

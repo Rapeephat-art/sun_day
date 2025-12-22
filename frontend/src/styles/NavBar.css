@@ -1,0 +1,120 @@
+/* src/styles/NavBar.css */
+
+/* navbar base */
+.navbar-custom {
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  background: #ffffff;
+  padding: 10px 0;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* container layout */
+.navbar-custom .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* -------------------
+      Left Section
+--------------------*/
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* logo */
+.nav-logo {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  background: #ffffff;
+  padding: 6px;
+  border-radius: 8px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+  transition: transform .25s ease;
+}
+
+.nav-logo:hover {
+  transform: scale(1.05);
+}
+
+/* brand name */
+.brand-text {
+  font-size: 20px;
+  font-weight: 800;
+  color: #0b66d1;
+  letter-spacing: 0.5px;
+  transition: color 0.2s;
+}
+
+.brand-text:hover {
+  color: #084fa3;
+}
+
+/* -------------------
+      Right Menu
+--------------------*/
+.navbar-nav .nav-link {
+  color: #333;
+  padding: 6px 12px;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #0b66d1;
+  transform: translateY(-1px);
+}
+
+/* Login/Sign up Buttons */
+.btn-outline-primary {
+  border-color: rgba(11,102,209,0.4);
+  color: #0b66d1;
+  background: #fff;
+  transition: 0.2s;
+}
+
+.btn-outline-primary:hover {
+  background: #0b66d1;
+  color: #fff;
+}
+
+.btn-primary {
+  background: #0b66d1;
+  border-color: #0b66d1;
+  transition: 0.2s;
+}
+
+.btn-primary:hover {
+  background: #084fa3;
+}
+
+/* Dropdown alignment */
+.dropdown-menu-end {
+  right: 0;
+  left: auto;
+}
+
+/* -------------------
+      Mobile Responsive
+--------------------*/
+@media (max-width: 768px) {
+  .nav-logo {
+    width: 42px;
+    height: 42px;
+  }
+
+  .brand-text {
+    font-size: 17px;
+  }
+
+  .navbar-custom .container {
+    gap: 6px;
+  }
+}
