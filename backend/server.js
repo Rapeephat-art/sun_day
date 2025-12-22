@@ -4,7 +4,7 @@ const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
 
-const app = express(); // ✅ สำคัญมาก (คุณลืมบรรทัดนี้)
+const app = express(); 
 
 // ================= CORS =================
 app.use(cors({

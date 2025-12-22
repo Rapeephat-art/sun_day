@@ -10,15 +10,12 @@ const JWT_SECRET = process.env.JWT_SECRET || "secret123";
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
-  // ป้องกัน body ว่าง
   if (!username || !password) {
-    return res.status(400).json({
-      error: "username and password required"
-    });
+    return res.status(400).json({ error: "username and password required" });
   }
 
   try {
-    const [rows] = await pool.query(
+    const result = await pool.query(
       `
       SELECT
         user_id,
@@ -29,19 +26,17 @@ router.post("/login", async (req, res) => {
         parent_id,
         center_id
       FROM users
-      WHERE username = ?
+      WHERE username = $1
       `,
       [username.trim()]
     );
 
-    // ไม่พบ user
-    if (rows.length === 0) {
+    if (result.rows.length === 0) {
       return res.status(401).json({ error: "invalid credentials" });
     }
 
-    const user = rows[0];
+    const user = result.rows[0];
 
-    // เทียบ password (รองรับ string / number / ช่องว่าง)
     if (
       String(user.password).trim() !==
       String(password).trim()
@@ -49,7 +44,6 @@ router.post("/login", async (req, res) => {
       return res.status(401).json({ error: "invalid credentials" });
     }
 
-    // สร้าง JWT
     const token = jwt.sign(
       {
         user_id: user.user_id,
@@ -59,7 +53,6 @@ router.post("/login", async (req, res) => {
       { expiresIn: "1d" }
     );
 
-    // ไม่ส่ง password กลับ
     delete user.password;
 
     res.json({
@@ -72,6 +65,7 @@ router.post("/login", async (req, res) => {
     res.status(500).json({ error: "login failed" });
   }
 });
+
 
 // ================= REGISTER =================
 router.post("/register", async (req, res) => {
