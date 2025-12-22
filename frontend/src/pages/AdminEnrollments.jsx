@@ -303,7 +303,7 @@ export default function AdminEnrollments() {
                             {fileLabels[key] || key} :{" "}
                             {path ? (
                               <a
-                                href={`http://localhost:4000/${path}`}
+                                href={`${import.meta.env.VITE_API_URL}/${path}`}
                                 target="_blank"
                                 rel="noreferrer"
                               >
