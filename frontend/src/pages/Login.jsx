@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import API, { setAuthToken } from "../api/api";
 import { useNavigate } from "react-router-dom";
 
-export default function Login() {
+export default function Login({ setUser }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -11,17 +11,30 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const res = await API.post('/auth/login', {
+      const res = await API.post("/auth/login", {
         username,
         password
       });
 
-      setAuthToken(res.data.token);
-      navigate('/admin');
+      const { token, user } = res.data;
+
+      // ⭐ สำคัญมาก
+      setAuthToken(token);
+      localStorage.setItem("user", JSON.stringify(user));
+      setUser(user);
+
+      // redirect
+      if (user.role === "admin") {
+        navigate("/admin", { replace: true });
+      } else if (user.role === "teacher") {
+        navigate("/teacher/children", { replace: true });
+      } else {
+        navigate("/", { replace: true });
+      }
 
     } catch (err) {
       console.error(err);
-      alert('login failed');
+      alert("login failed");
     }
   }
 
