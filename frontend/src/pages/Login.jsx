@@ -19,7 +19,7 @@ export default function Login({ setUser }) {
       const { token, user } = res.data;
 
       // ✅ สำคัญที่สุด
-      setAuthToken(token);
+      localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
       setUser(user);
 
