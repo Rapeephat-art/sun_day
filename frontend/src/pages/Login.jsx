@@ -18,19 +18,18 @@ export default function Login({ setUser }) {
 
       const { token, user } = res.data;
 
-      // ✅ สำคัญที่สุด
-      localStorage.setItem("token", token);
+      setAuthToken(token);
       localStorage.setItem("user", JSON.stringify(user));
-      setUser(user);
 
-      // redirect ตาม role
       if (user.role === "admin") {
-        navigate("/admin");
+      navigate("/admin");
       } else if (user.role === "teacher") {
-        navigate("/teacher/children");
+       navigate("/teacher/children");
       } else {
-        navigate("/");
+      // parent
+       navigate("/");
       }
+
 
     } catch (err) {
       console.error(err);
