@@ -8,9 +8,13 @@ const app = express();
 
 // ================= CORS =================
 app.use(cors({
-  origin: true,
+  origin: [
+    "http://localhost:5173",
+    "https://sun-day-seven.vercel.app" // << ใส่โดเมนจริง
+  ],
   credentials: true
 }));
+
 
 
 // ================= Middlewares =================
