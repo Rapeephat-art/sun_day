@@ -11,10 +11,6 @@ app.use(cors({
   origin: true,
   credentials: true
 }));
-
-
-
-
 // ================= Middlewares =================
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
