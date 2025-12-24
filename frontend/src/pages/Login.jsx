@@ -1,29 +1,35 @@
 import React, { useState } from "react";
-import API from "../api/api";
+import API, { setAuthToken } from "../api/api";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
+
     try {
-      const res = await API.post("/api/auth/login", {
+      const res = await API.post('/auth/login', {
         username,
         password
       });
-      alert("LOGIN OK: " + JSON.stringify(res.data));
+
+      setAuthToken(res.data.token);
+      navigate('/admin');
+
     } catch (err) {
       console.error(err);
-      alert("LOGIN FAIL");
+      alert('login failed');
     }
   }
 
   return (
     <form onSubmit={handleSubmit}>
       <input value={username} onChange={e => setUsername(e.target.value)} />
-      <input value={password} onChange={e => setPassword(e.target.value)} />
-      <button>login</button>
+      <input value={password} type="password" onChange={e => setPassword(e.target.value)} />
+      <button>Login</button>
     </form>
   );
 }

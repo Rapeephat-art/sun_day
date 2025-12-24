@@ -1,21 +1,20 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 
-/* TEST LOGIN (ตัด DB ออกก่อน) */
-router.post("/login", (req, res) => {
+router.post('/login', (req, res) => {
   const { username, password } = req.body;
 
-  if (username === "admin" && password === "1234") {
+  if (username === 'admin' && password === '1234') {
     return res.json({
-      token: "test-token",
+      token: 'test-token',
       user: {
-        username: "admin",
-        role: "admin"
+        username: 'admin',
+        role: 'admin'
       }
     });
   }
 
-  res.status(401).json({ error: "invalid credentials" });
+  res.status(401).json({ error: 'invalid credentials' });
 });
 
 module.exports = router;
