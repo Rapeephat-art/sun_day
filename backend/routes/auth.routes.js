@@ -1,32 +1,36 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
+const { createClient } = require("@supabase/supabase-js");
 
-router.post('/login', (req, res) => {
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY
+);
+
+router.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
-  if (username === 'admin' && password === '1234') {
-    return res.json({
-      token: 'admin-token',
-      user: { username, role: 'admin' }
-    });
+  const { data, error } = await supabase
+    .from("users")
+    .select("username, password, role")
+    .eq("username", username)
+    .single();
+
+  if (error || !data) {
+    return res.status(401).json({ error: "invalid credentials" });
   }
 
-  if (username === 'teacher' && password === '1234') {
-    return res.json({
-      token: 'teacher-token',
-      user: { username, role: 'teacher' }
-    });
+  if (String(data.password) !== String(password)) {
+    return res.status(401).json({ error: "invalid credentials" });
   }
 
-  if (username === 'parent' && password === '1234') {
-    return res.json({
-      token: 'parent-token',
-      user: { username, role: 'parent' }
-    });
-  }
-
-  return res.status(401).json({ error: 'invalid credentials' });
+  res.json({
+    token: "test-token",
+    user: {
+      username: data.username,
+      role: data.role
+    }
+  });
 });
-
 
 module.exports = router;
