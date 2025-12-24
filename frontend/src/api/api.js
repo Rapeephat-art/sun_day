@@ -1,8 +1,9 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL
+  baseURL: "https://sun-day-node.onrender.com"
 });
+
 
 export function setAuthToken(token) {
   if (token) {
