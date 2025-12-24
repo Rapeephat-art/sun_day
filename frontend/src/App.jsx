@@ -1,104 +1,82 @@
 // src/App.jsx
 import React, { useEffect, useState } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
-import NavBar from "./components/NavBar";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-/* ===== Layouts ===== */
+/* layouts */
 import AdminLayout from "./layouts/AdminLayout";
 import TeacherLayout from "./layouts/TeacherLayout";
 import ParentLayout from "./layouts/ParentLayout";
+import PublicLayout from "./layouts/PublicLayout";
 
-/* ===== Public ===== */
+/* pages */
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Announcements from "./pages/Announcements";
 
-/* ===== Admin ===== */
+/* admin */
 import AdminDashboard from "./pages/admin/AdminDashboard";
-import AdminUsers from "./pages/admin/AdminUsers";
-import AdminEnrollments from "./pages/AdminEnrollments";
 
-/* ===== Teacher ===== */
+/* teacher */
 import ChildrenInClass from "./pages/ChildrenInClass";
-import CheckinPage from "./pages/Checkin";
 
-/* ===== Parent ===== */
-import Enrollment from "./pages/Enrollment";
-import MyEnrollment from "./pages/MyEnrollment";
+/* parent */
+import MyChildren from "./pages/MyChildren";
 
-function App() {
+export default function App() {
   const [user, setUser] = useState(null);
-  const navigate = useNavigate();
 
-  // โหลด user จาก localStorage
   useEffect(() => {
     const u = localStorage.getItem("user");
     if (u) setUser(JSON.parse(u));
   }, []);
 
-  function handleLogout() {
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-    setUser(null);
-    navigate("/login");
-  }
-
   return (
-    <>
-      <NavBar user={user} onLogout={handleLogout} />
+    <Routes>
 
-      <Routes>
-        {/* ================= PUBLIC ================= */}
+      {/* ========== PUBLIC ========== */}
+      <Route element={<PublicLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/announcements" element={<Announcements />} />
+      </Route>
 
-        {/* ================= ADMIN ================= */}
-        <Route
-          path="/admin"
-          element={
-            <ProtectedRoute allowedRoles={["admin"]}>
-              <AdminLayout />
-            </ProtectedRoute>
-          }
-        >
-          <Route index element={<AdminDashboard />} />
-          <Route path="users" element={<AdminUsers />} />
-          <Route path="enrollments" element={<AdminEnrollments />} />
-        </Route>
+      {/* ========== ADMIN ========== */}
+      <Route
+        element={
+          <ProtectedRoute allowedRoles={["admin"]}>
+            <AdminLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route path="/admin" element={<AdminDashboard />} />
+      </Route>
 
-        {/* ================= TEACHER ================= */}
-        <Route
-          path="/teacher"
-          element={
-            <ProtectedRoute allowedRoles={["teacher"]}>
-              <TeacherLayout />
-            </ProtectedRoute>
-          }
-        >
-          <Route path="children" element={<ChildrenInClass />} />
-          <Route path="checkin" element={<CheckinPage />} />
-        </Route>
+      {/* ========== TEACHER ========== */}
+      <Route
+        element={
+          <ProtectedRoute allowedRoles={["teacher"]}>
+            <TeacherLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route path="/teacher/children" element={<ChildrenInClass />} />
+      </Route>
 
-        {/* ================= PARENT ================= */}
-        <Route
-          path="/parent"
-          element={
-            <ProtectedRoute allowedRoles={["parent"]}>
-              <ParentLayout />
-            </ProtectedRoute>
-          }
-        >
-          <Route path="enroll" element={<Enrollment />} />
-          <Route path="my-enrollment" element={<MyEnrollment />} />
-        </Route>
-      </Routes>
-    </>
+      {/* ========== PARENT ========== */}
+      <Route
+        element={
+          <ProtectedRoute allowedRoles={["parent"]}>
+            <ParentLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route path="/my-children" element={<MyChildren />} />
+      </Route>
+
+      {/* ========== FALLBACK ========== */}
+      <Route path="*" element={<Navigate to="/" />} />
+    </Routes>
   );
 }
-
-export default App;
