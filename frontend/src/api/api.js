@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: "https://sun-day-node.onrender.com"
+  baseURL: "https://sun-day-node.onrender.com/api",
 });
 
 
