@@ -12,11 +12,11 @@ export default function Login({ setUser }) {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await API.post("/auth/login", { username, password });
+      const res = await API.post("api/auth/login", { username, password });
       const { token, user } = res.data;
 
       setAuthToken(token);
-      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("user", JSON.stringiSfy(user));
       setUser && setUser(user);
 
       // redirect ตามสิทธิ์
