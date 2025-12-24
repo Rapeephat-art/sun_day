@@ -18,18 +18,18 @@ export default function Login({ setUser }) {
 
       const { token, user } = res.data;
 
-      // ⭐ สำคัญมาก
+      // ✅ สำคัญที่สุด
       setAuthToken(token);
       localStorage.setItem("user", JSON.stringify(user));
       setUser(user);
 
-      // redirect
+      // redirect ตาม role
       if (user.role === "admin") {
-        navigate("/admin", { replace: true });
+        navigate("/admin");
       } else if (user.role === "teacher") {
-        navigate("/teacher/children", { replace: true });
+        navigate("/teacher/children");
       } else {
-        navigate("/", { replace: true });
+        navigate("/");
       }
 
     } catch (err) {
@@ -41,7 +41,7 @@ export default function Login({ setUser }) {
   return (
     <form onSubmit={handleSubmit}>
       <input value={username} onChange={e => setUsername(e.target.value)} />
-      <input value={password} type="password" onChange={e => setPassword(e.target.value)} />
+      <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
       <button>Login</button>
     </form>
   );
