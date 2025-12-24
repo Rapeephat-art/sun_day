@@ -10,7 +10,7 @@ import axios from 'axios';
 export const UPLOADED_SQL_PATH = '/mnt/data/carechild_db.sql';
 
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL
+  baseURL: import.meta.env.VITE_API_URL 
 });
 
 // ตั้ง token ถ้ามีเก็บใน localStorage ตอนโหลดหน้า

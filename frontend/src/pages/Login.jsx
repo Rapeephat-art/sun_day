@@ -29,10 +29,15 @@ export default function Login({ setUser }) {
       }
 
     } catch (err) {
-      alert(err?.response?.data?.error || "เข้าสู่ระบบไม่สำเร็จ");
-    } finally {
-      setLoading(false);
-    }
+  console.error("LOGIN ERROR:", err.response?.data || err.message);
+  alert(
+    err.response?.data?.error ||
+    err.response?.data?.message ||
+    JSON.stringify(err.response?.data) ||
+    "เข้าสู่ระบบไม่สำเร็จ"
+  );
+}
+
   }
 
   return (
