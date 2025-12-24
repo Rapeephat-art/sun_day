@@ -8,12 +8,10 @@ const app = express();
 
 // ================= CORS =================
 app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "https://<vercel-frontend>.vercel.app" // เปลี่ยนเป็นของจริง
-  ],
+  origin: true,
   credentials: true
 }));
+
 
 // ================= Middlewares =================
 app.use(express.json());
