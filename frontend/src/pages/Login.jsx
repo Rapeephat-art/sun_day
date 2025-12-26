@@ -13,34 +13,41 @@ export default function Login({ setUser }) {
     try {
       const res = await API.post("/auth/login", {
         username,
-        password
+        password,
       });
 
       const { token, user } = res.data;
 
       setAuthToken(token);
       localStorage.setItem("user", JSON.stringify(user));
+      setUser(user); // ⭐ สำคัญ
 
       if (user.role === "admin") {
-      navigate("/admin");
+        navigate("/admin");
       } else if (user.role === "teacher") {
-       navigate("/teacher/children");
+        navigate("/teacher/children");
       } else {
-      // parent
-       navigate("/");
+        navigate("/");
       }
-
-
     } catch (err) {
-      console.error(err);
+      console.error("LOGIN ERROR:", err.response?.status, err.response?.data);
       alert("login failed");
     }
   }
 
   return (
     <form onSubmit={handleSubmit}>
-      <input value={username} onChange={e => setUsername(e.target.value)} />
-      <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
+      <input
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        placeholder="username"
+      />
+      <input
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        placeholder="password"
+      />
       <button>Login</button>
     </form>
   );
