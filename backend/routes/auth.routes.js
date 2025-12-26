@@ -24,12 +24,12 @@ router.post("/login", async (req, res) => {
     return res.status(401).json({ error: "wrong password" });
   }
 
-  return res.json({
-    token: "mock-token",
+  res.json({
+    token: "test-token",
     user: {
       username: data.username,
-      role: data.role
-    }
+      role: data.role,
+    },
   });
 });
 

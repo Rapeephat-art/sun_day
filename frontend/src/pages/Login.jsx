@@ -20,7 +20,7 @@ export default function Login({ setUser }) {
 
       setAuthToken(token);
       localStorage.setItem("user", JSON.stringify(user));
-      setUser(user); // ⭐ สำคัญ
+      setUser?.(user);
 
       if (user.role === "admin") {
         navigate("/admin");
@@ -30,23 +30,23 @@ export default function Login({ setUser }) {
         navigate("/");
       }
     } catch (err) {
-      console.error("LOGIN ERROR:", err.response?.status, err.response?.data);
-      alert("login failed");
+      console.error("LOGIN ERROR:", err.response?.data);
+      alert(err.response?.data?.error || "login failed");
     }
   }
 
   return (
     <form onSubmit={handleSubmit}>
       <input
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
         placeholder="username"
+        value={username}
+        onChange={e => setUsername(e.target.value)}
       />
       <input
         type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
         placeholder="password"
+        value={password}
+        onChange={e => setPassword(e.target.value)}
       />
       <button>Login</button>
     </form>
