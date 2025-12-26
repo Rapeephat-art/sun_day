@@ -12,20 +12,20 @@ router.post("/login", async (req, res) => {
 
   const { data, error } = await supabase
     .from("users")
-    .select("username, password, role")
+    .select("username, role, password")
     .eq("username", username)
     .single();
 
   if (error || !data) {
-    return res.status(401).json({ error: "invalid credentials" });
+    return res.status(401).json({ error: "user not found" });
   }
 
-  if (String(data.password) !== String(password)) {
-    return res.status(401).json({ error: "invalid credentials" });
+  if (data.password !== password) {
+    return res.status(401).json({ error: "wrong password" });
   }
 
-  res.json({
-    token: "test-token",
+  return res.json({
+    token: "mock-token",
     user: {
       username: data.username,
       role: data.role
