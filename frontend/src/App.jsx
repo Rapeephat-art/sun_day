@@ -1,6 +1,13 @@
 // src/App.jsx
 import React, { useEffect, useState } from "react";
-import { Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+  useNavigate,
+  Outlet
+} from "react-router-dom";
 
 import NavBar from "./components/NavBar";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -21,6 +28,8 @@ import ChildrenInClass from "./pages/ChildrenInClass";
 
 /* ===== Parent ===== */
 import MyEnrollment from "./pages/MyEnrollment";
+import MyChildren from "./pages/MyChildren";
+import ParentLayout from "./layouts/ParentLayout";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -61,12 +70,12 @@ function App() {
               <AdminLayout />
             </ProtectedRoute>
           }
-        >ห
+        >
           <Route index element={<AdminDashboard />} />
           <Route path="users" element={<AdminUsers />} />
         </Route>
 
-        {/* ===== TEACHER ===== */}ก
+        {/* ===== TEACHER ===== */}
         <Route
           path="/teacher"
           element={
@@ -78,15 +87,15 @@ function App() {
 
         {/* ===== PARENT ===== */}
         <Route
-                element={
-                  <ProtectedRoute allowedRoles={["parent"]}>
-                    <ParentLayout />
-                  </ProtectedRoute>
-                }
-              >
-                <Route path="/enroll" element={<Enrollment />} />
-                <Route path="/my-children" element={<MyChildren />} />
-              </Route>
+          element={
+            <ProtectedRoute allowedRoles={["parent"]}>
+              <Outlet />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="my-enrollment" element={<MyEnrollment />} />
+          <Route path="my-children" element={<MyChildren />} />
+        </Route>
 
         {/* ===== FALLBACK ===== */}
         <Route path="*" element={<Navigate to="/" replace />} />
