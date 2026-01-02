@@ -61,14 +61,14 @@ function App() {
               <AdminLayout />
             </ProtectedRoute>
           }
-        >
+        >ห
           <Route index element={<AdminDashboard />} />
           <Route path="users" element={<AdminUsers />} />
         </Route>
 
-        {/* ===== TEACHER ===== */}
+        {/* ===== TEACHER ===== */}ก
         <Route
-          path="/teacher/children"
+          path="/teacher"
           element={
             <ProtectedRoute allowedRoles={["teacher"]}>
               <ChildrenInClass />
@@ -78,13 +78,15 @@ function App() {
 
         {/* ===== PARENT ===== */}
         <Route
-          path="/enrollments/my"
-          element={
-            <ProtectedRoute allowedRoles={["parent"]}>
-              <MyEnrollment />
-            </ProtectedRoute>
-          }
-        />
+                element={
+                  <ProtectedRoute allowedRoles={["parent"]}>
+                    <ParentLayout />
+                  </ProtectedRoute>
+                }
+              >
+                <Route path="/enroll" element={<Enrollment />} />
+                <Route path="/my-children" element={<MyChildren />} />
+              </Route>
 
         {/* ===== FALLBACK ===== */}
         <Route path="*" element={<Navigate to="/" replace />} />

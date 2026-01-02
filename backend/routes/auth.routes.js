@@ -7,30 +7,52 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
+/**
+ * POST /api/auth/login
+ * body: { username, password }
+ */
 router.post("/login", async (req, res) => {
-  const { username, password } = req.body;
+  try {
+    const { username, password } = req.body;
 
-  const { data, error } = await supabase
-    .from("users")
-    .select("username, role, password")
-    .eq("username", username)
-    .single();
+    // debug เห็นค่าที่ส่งมาแน่ ๆ
+    console.log("LOGIN BODY:", { username, password });
 
-  if (error || !data) {
-    return res.status(401).json({ error: "user not found" });
+    if (!username || !password) {
+      return res.status(400).json({ error: "username and password required" });
+    }
+
+    const { data, error } = await supabase
+      .from("users")
+      .select("username, role, password")
+      .eq("username", username)
+      .single();
+
+    if (error || !data) {
+      console.log("LOGIN FAIL: user not found");
+      return res.status(401).json({ error: "user not found" });
+    }
+
+    // เทียบ plain text ตรง ๆ (ตามระบบปัจจุบัน)
+    if (data.password !== password) {
+      console.log("LOGIN FAIL: wrong password");
+      return res.status(401).json({ error: "wrong password" });
+    }
+
+    // ผ่าน
+    console.log("LOGIN OK:", data.username);
+
+    return res.json({
+      token: "test-token",
+      user: {
+        username: data.username,
+        role: data.role,
+      },
+    });
+  } catch (err) {
+    console.error("LOGIN SERVER ERROR:", err);
+    return res.status(500).json({ error: "server error" });
   }
-
-  if (data.password !== password) {
-    return res.status(401).json({ error: "wrong password" });
-  }
-
-  res.json({
-    token: "test-token",
-    user: {
-      username: data.username,
-      role: data.role,
-    },
-  });
 });
 
 module.exports = router;
