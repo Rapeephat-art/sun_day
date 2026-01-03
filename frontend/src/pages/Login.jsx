@@ -41,10 +41,10 @@ export default function Login({ setUser }) {
         navigate("/");
       }
     } catch (err) {
-      // debug เห็น error จริงจาก backend
-      console.error("LOGIN ERROR FULL:", err.response || err);
-      setError(err.response?.data?.error || "login failed");
-    } finally {
+  console.error("LOGIN ERROR FULL:", err.response);
+  alert(JSON.stringify(err.response?.data));
+}
+ finally {
       setLoading(false);
     }
   }
